@@ -22,16 +22,6 @@ public class UserController {
         return userService.getAll();
     }
 
-    @GetMapping("/emailexist/{email}")
-    public boolean existeEmail(@PathVariable("email") String email) {
-        return userService.existeEmail(email);
-    }
-
-    @GetMapping("/{email}/{password}")
-    public User autenticateUser(@PathVariable("email") String email, @PathVariable("password") String password) {
-        return userService.autenticateUser(email, password);
-    }
-
     @GetMapping("/{id}")
     public Optional<User> getUser(@PathVariable("id") int id) {
         return userService.getUser(id);
@@ -54,4 +44,23 @@ public class UserController {
     public boolean delete(@PathVariable("id") int id){
         return userService.delete(id);
     }
+
+    @GetMapping("/{email}/{password}")
+    public User autenticateUser(@PathVariable("email") String email, @PathVariable("password") String password) {
+        return userService.autenticateUser(email, password);
+    }
+
+    @GetMapping("/emailexist/{email}")
+    public boolean existeEmail(@PathVariable("email") String email) {
+        return userService.existeEmail(email);
+    }
+
+
+
+
+
+
+
+
+
 }

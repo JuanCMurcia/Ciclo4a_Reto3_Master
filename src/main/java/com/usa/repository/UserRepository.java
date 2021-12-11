@@ -42,4 +42,8 @@ public class UserRepository {
     public Optional<User> autenticateUser(String email, String password) {
         return crudInterface.findByEmailAndPassword(email, password);
     }
+
+    public Optional<User>lastUserId(){
+        return crudInterface.findTopByOrderByIdDesc();
+    }
 }

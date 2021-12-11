@@ -23,9 +23,16 @@ public class UserService {
     }
 
     public User create(User user) {
+        Optional<User> userIdMaximo = userRepository.lastUserId();
+
         if (user.getId() == null) {
-            return user;
-        } else {
+            if (userIdMaximo.isEmpty()) {
+                user.setId(1);
+            } else {
+                user.setId(userIdMaximo.get().getId() + 1);
+            }
+        }
+
             Optional<User> evc = userRepository.getUser(user.getId());
             if (evc.isEmpty()) {
                 if (existeEmail(user.getEmail()) == false) {
@@ -33,10 +40,9 @@ public class UserService {
                 } else {
                     return user;
                 }
-            } else {
+            }else {
                 return user;
             }
-        }
     }
 
     public User update(User user) {
@@ -48,6 +54,12 @@ public class UserService {
                 }
                 if (user.getName() != null) {
                     userDb.get().setName(user.getName());
+                }
+                if (user.getBirthtDay() != null){
+                    userDb.get().setBirthtDay(user.getBirthtDay());
+                }
+                if (user.getMonthBirthtDay() != null){
+                    userDb.get().setMonthBirthtDay(user.getMonthBirthtDay());
                 }
                 if (user.getAddress() != null) {
                     userDb.get().setAddress(user.getAddress());
