@@ -1,7 +1,6 @@
 package com.usa.service;
 
 import com.usa.model.Order;
-import com.usa.model.User;
 import com.usa.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,4 +66,7 @@ public class OrderService {
         return del;
     }
 
+    public List<Order>findByZone(String zona){
+        return orderRepository.findByZone(zona);
+    }
 }
