@@ -20,36 +20,25 @@ body{
     font-family:Arial, Helvetica, sans-serif;
 }
 
-#texth4Index{
+#texth3Index{
     color: #00306e;
     text-align: center;
     padding-top: 20px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-#bar{
-    background-color: #b9e6eb;
-    box-shadow: 5px 1px 10px #0d3283;
-}
-
-img {
-    width: 200px;
-}
-
-button{
-    margin-left: 38%;
-}
-
-#menu-pos{
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-#color-label{
+#coordData{
     color: #00306e;
-}
-
-h5{
     font-family: Arial, Helvetica, sans-serif;
-    color: #00306e;
 }
+
+#userData{
+    color: #00306e;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#zona{
+    color: #00306e;
+    font-family: Arial, Helvetica, sans-serif;
+}
+

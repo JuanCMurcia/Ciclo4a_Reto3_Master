@@ -4,6 +4,9 @@ function userValidation(formName) {
         let email = $("#userEmail").val();
         let password = $("#userPassword").val();
 
+        sessionStorage.setItem("email", email);
+        sessionStorage.setItem("password", password);
+
         if ((email == "") || (password == "")) {
             alert("Debe diligenciar los campos");
         } else {
@@ -17,19 +20,15 @@ function userValidation(formName) {
                     datatype: "JSON",
                     success: function (item) {
                         console.log(item);
-                        if (item.type == "ADM") {
-                            alert("Inicia Seccion como Administrador");
-                        }else{
+                     
                             userVerification(item);
-                            window.location.href = "servicios.html";
-                            sessionStorage.setItem("NombreUsuarioServicio", item.name);
-                        }
+                  
                     }
                 });
                 clearFields(formName);
             }
         }
-    }
+    } 
 }
 
 ///Validacion datos para administrador
@@ -66,13 +65,127 @@ function userValidationAdmin(formName) {
     }
 }
 
-/**Determina si existe el usuario o no */
-function userVerification(user) {
-    if (user.identification === null) {
-        alert("Usted no se encuentra registrado, por favor comuníquese con el administrador");
+function admVerification(user) {
+    if (user.type != "ADM") {
+        alert("Usted no es administrador de esta Aplicación Web");
     } else {
         alert("Bienvenido " + user.name);
+        console.log(user.id);
+        window.location.href = "admon.html";
     }
+}
+
+/**Determina si existe el usuario o no */
+function userVerification(user) {
+    if (user.type === "ASE") {
+        alert("Bienvenid@ Asesor : " + user.name);
+        console.log(user.id);
+        window.location.href = "user.html";
+    } else if (user.type === "COORD") {
+        alert("Bienvenid@ Coordinador : " + user.name);
+        console.log(user.id);
+        window.location.href = "coordForm.html";
+    } else if (user.type === "ADM") {
+        alert("Bienvenid@ Administrador : " + user.name);
+        console.log(user.id);
+        window.location.href = "admon.html";
+    } else{
+        alert("No se encuentra Registrado")
+    }
+}
+
+function userPage() {
+    console.log("Estoy en userPage");
+    let email = sessionStorage.getItem("email");
+    let password = sessionStorage.getItem("password");
+    console.log(password);
+    $.ajax({
+        //url: "http://localhost:8080/api/user/" + email + "/" + password + "",
+        url: "http://152.70.209.140:8080/api/user/" + email + "/" + password + "",
+        type: "GET",
+        datatype: "JSON",
+        success: function (item) {
+            console.log(item);
+            let userList = "<ul>";
+            userList += "<li><b>Identificación:</b> " + item.identification + "</li>";
+            userList += "<li><b>Nombre:</b> " + item.name + "</li>";
+            userList += "<li><b>N° Celular:</b> " + item.cellPhone + "</li>";
+            userList += "<li><b>Email:</b> " + item.email + "</li>";
+            userList += "<li><b>Zona:</b> " + item.zone + "</li>";
+            userList += "<li><b>Tipo:</b> " + item.type + "</li>";
+            userList += "</ul>";
+            $("#userData").append(userList);
+            let salesman = item.name;
+            let zone = item.zone;
+            sessionStorage.setItem("salesman", salesman);
+            sessionStorage.setItem("zone", zone);
+            sessionStorage.setItem("user", JSON.stringify(item));
+        }
+    });
+}
+
+
+function coordPage() {
+    console.log("Estoy en coordPage");
+    let email = sessionStorage.getItem("email");
+    let password = sessionStorage.getItem("password");
+    $.ajax({
+        //url: "http://localhost:8080/api/user/" + email + "/" + password + "",
+        url: "http://152.70.209.140:8080/api/user/" + email + "/" + password + "",
+        type: "GET",
+        datatype: "JSON",
+        success: function (item) {
+            console.log(item);
+            let userList = "<ul>";
+            userList += "<li><b>Identificación:</b> " + item.identification + "</li>";
+            userList += "<li><b>Nombre:</b> " + item.name + "</li>";
+            userList += "<li><b>N° Celular:</b> " + item.cellPhone + "</li>";
+            userList += "<li><b>Email:</b> " + item.email + "</li>";
+            userList += "<li><b>Zona:</b> " + item.zone + "</li>";
+            userList += "<li><b>Tipo:</b> " + item.type + "</li>";
+            userList += "</ul>";
+            $("#coordData").append(userList);
+            let salesman = item.name;
+            let zone = item.zone;
+            sessionStorage.setItem("salesman", salesman);
+            sessionStorage.setItem("zone", zone);
+        }
+    });
+}
+
+function orderList() {// order/zona/ZONA 1
+    let zone = sessionStorage.getItem("zone");
+    
+    $.ajax({
+        //url: "http://localhost:8080/api/order/zona/" + zone + "",
+        url: "http://152.70.209.140:8080/api/order/zona/" + zone + "",
+        type: "GET",
+        
+        datatype: "JSON",
+        success: function (items) {
+            console.log(items);
+            let ordersTable = "<table class=\"table table-striped table-responsive\">";
+            ordersTable += "<th>Id</th>";
+            ordersTable += "<th>Fecha de Registro</th>";
+            ordersTable += "<th>Asesor</th>";
+            ordersTable += "<th>Estado</th>";
+            
+
+            for (i = 0; i < items.length; i++) {
+                ordersTable += "<tr>";
+                ordersTable += "<td><small>" + items[i].id + "</small></td>";
+                ordersTable += "<td><small>" + items[i].registerDay + "</small></td>";
+                ordersTable += "<td><small>" + items[i].salesMan.name + "</small></td>";
+                ordersTable += "<td><small>" + items[i].status + "</small></td>";
+
+                ordersTable += "<td> <button onclick='orderDetail("+items[i].id+")'>Ver detalle</button>";
+                
+                ordersTable += "</tr>";
+            }
+            ordersTable += "</table>";
+            $("#ordersTable").append(ordersTable);
+        }
+    });
 }
 
 /**Limpia los campos de las cajas de los formularios */
@@ -118,6 +231,13 @@ function clearFields(formName) {
         $("#updatePrice").val("");
         $("#updateQua").val("");
         $("#updatePhoto").val("");
+    } else if (formName == "admForm") {
+        $("#admEmail").val("");
+        $("#admPassword").val("");
+    } else if (formName == "orderForm") {
+        $("#newRDay").val("");
+        $("#newStatus").val("");
+        $("#newSalesman").val("");
     }
 }
 
@@ -299,7 +419,6 @@ function showData(formName) {
     }
 }
 
-
 /**Imprime la informacion en el Html de usuarios y productos */
 function paintAnswer(formName, items) {
     let myTable = "<table class=\"table table-striped\">";
@@ -382,7 +501,7 @@ function dataCharge(formName, idElement) {
         //console.log("llego al data charge");
         $.ajax({
             //url: "http://localhost:8080/api/user/" + idElement + "",
-            url: "http://152.70.209.140:8080/api/user/"+ idElement +"",
+            url: "http://152.70.209.140:8080/api/user/" + idElement + "",
             type: "GET",
             datatype: "JSON",
             success: function (answer) {
@@ -402,8 +521,8 @@ function dataCharge(formName, idElement) {
     } else if (formName == "productsAdmon") {
         console.log("llego al data charge");
         $.ajax({
-            //url: "http://localhost:8080/api/clothe/" + idElement + "",
-            url: "http://152.70.209.140:8080/api/clothe/"+ idElement +"",
+            url: "http://localhost:8080/api/clothe/" + idElement + "",
+            //url: "http://152.70.209.140:8080/api/clothe/" + idElement + "",
             type: "GET",
             datatype: "JSON",
             success: function (answer) {
@@ -490,7 +609,7 @@ function deleteData(formName, idElement) {
         let dataToSend = JSON.stringify(myData);
         $.ajax({
             //url: "http://localhost:8080/api/user/" + id + "",
-            url: "http://152.70.209.140:8080/api/user/" + id +"",
+            url: "http://152.70.209.140:8080/api/user/" + id + "",
             type: "DELETE",
             data: dataToSend,
             contentType: "application/json; charset=utf-8",
@@ -508,7 +627,7 @@ function deleteData(formName, idElement) {
         let dataToSend = JSON.stringify(myData);
         $.ajax({
             //url: "http://localhost:8080/api/clothe/" + reference + "",
-            url: "http://152.70.209.140:8080/api/clothe/" + reference +"",
+            url: "http://152.70.209.140:8080/api/clothe/" + reference + "",
             type: "DELETE",
             data: dataToSend,
             contentType: "application/json; charset=utf-8",
@@ -519,4 +638,137 @@ function deleteData(formName, idElement) {
             }
         });
     }
+}
+
+function orderForm() {
+    let zone = sessionStorage.getItem("zone");
+    if (zone == "") {
+        alert("Usted no tiene zona asignada, comuníquese con su Coordinador")
+    } else {
+        window.location.href = "orderForm.html";
+    }
+}
+
+function fillOutFields() {
+    let salesman = sessionStorage.getItem("salesman");
+    $("#newSalesman").val(salesman);
+}
+
+function bringProducts() {
+    $.ajax({
+        //url: "http://localhost:8080/api/clothe/all",
+        url: "http://152.70.209.140:8080/api/clothe/all",
+        type: "GET",
+        datatype: "JSON",
+        success: function (items) {
+            console.log(items);
+            productsGalery(items);
+        }
+    });
+}
+
+function productsGalery(products) {
+
+    let myProducts = '<div class="container"><div class="row">';
+    for (i = 0; i < products.length; i++) {
+        myProducts += `
+             <div class="card m-2" style="width: 18rem;">
+                
+                 <div class="card-body">
+                     <h5 class="card-title">Referencia: ${products[i].reference}</h5>
+                     <h6 class="card-subtitle mb-2 text-muted">Categoría: ${products[i].category}</h6>
+                     <h6 class="card-subtitle mb-2 text-muted">Talla: ${products[i].size}</h6>
+                     <h6 class="card-subtitle mb-2 text-muted">Disponible: ${products[i].availability}</h6>
+                     <h6 class="card-subtitle mb-2 text-muted">Precio: $ ${products[i].price}</h6>
+                     <p class="card-text">${products[i].description}</p>
+              
+                     <button onclick='addProduct("${products[i].reference}")'>Agregar</button>
+                 </div>
+             </div>`
+    }
+    myProducts += "</div></div>";
+    $("#products").append(myProducts);
+
+   
+}
+
+function addProduct(id) {
+    $.ajax({
+        //url: "http://localhost:8080/api/clothe/" + id + "",
+        url: "http://152.70.209.140:8080/api/clothe/" + id + "",
+        type: "GET",
+        datatype: "JSON",
+        success: function (item) {
+            let newRow = "<tr>";
+            newRow += "<td><small>" + item.reference + "</small></td>";
+            newRow += "<td><small>" + item.category + "</small></td>";
+            newRow += "<td><small>" + item.size + "</small></td>";
+            newRow += "<td><small>" + item.availability + "</small></td>";
+            newRow += "<td><small>" + item.price + "</small></td>";
+            newRow += "<td><small>" + item.description + "</small></td>";
+            newRow += "<td><small><input type=\"number\" class=\"form-control\" id=\"quantities\"></small></td>";
+            newRow += "<td><button onclick='$(this).closest(\"tr\").remove();'>Eliminar</button>";
+            newRow += "</tr>"
+            $("#orderTable").append(newRow);
+        }
+    });
+}
+
+function obteinClothesFromOrderTable() {
+    let table = document.getElementById("orderTable");
+    console.log(table);
+    let reference;
+    for (let i = 1; i < table.length; i++) {
+        reference = table.rows[i].cells[0].innerText;
+        console.log(reference);
+        $.ajax({
+            //url: "http://localhost:8080/api/clothe/" + reference + "",
+            url: "http://152.70.209.140:8080/api/clothe/" + reference + "",
+            type: "GET",
+            datatype: "JSON",
+            success: function (item) {
+                console.log(item);
+                JSON.stringify(sessionStorage.setItem("product", item));
+            }
+        });
+    }
+    return { reference: JSON.parse(sessionStorage.getItem("product")) };
+}
+
+function obteinQuantitiesFromOrderTable() {
+    let table = $("#orderTable");
+    let reference;
+    let quantities;
+    for (let i = 1; i < table.length; i++) {
+        reference = table.rows[i].cells[0].innerText;
+        quantities = table.rows[i].cells[6].innerText;
+    }
+    return { reference: quantities };
+}
+
+function sendOrder(formName) {
+    let salesman = JSON.parse(sessionStorage.getItem("user"));
+    console.log(salesman);
+    console.log(obteinClothesFromOrderTable());
+    let myData = {
+        registerDay: $("#newRDay").val(),
+        status: $("#newStatus").val(),
+        salesMan: salesman,
+        products: obteinClothesFromOrderTable(),
+        quantities: obteinQuantitiesFromOrderTable(),
+    };
+    let dataToSend = JSON.stringify(myData);
+    $.ajax({
+        //url: "http://localhost:8080/api/order/new",
+        url: "http://152.70.209.140:8080/api/order/new",
+        type: "POST",
+        data: dataToSend,
+        contentType: "application/json; charset=utf-8",
+        datatype: "JSON",
+        success: function (answer) {
+            console.log(answer);
+            alert("Su orden se ha enviado con exito" + "N° Orden: " + answer.id);
+            clearFields(formName);
+        }
+    });
 }

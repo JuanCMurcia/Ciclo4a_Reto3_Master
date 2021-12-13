@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="fav/favicon.ico" type="image/x-icon">
+        <title>Turmeque: Admin</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+        <script src="js/name.js"></script>
+        <link rel="stylesheet" href="css/orderForm.css">
+    </head>
+
+<body onload="fillOutFields();">
+
+     <!-- mi navegacion -->
+     <div class="miNav">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <img src="images/LogoTurmeque.png" alt="" style="margin-right: 20px;">
+            <a class="navbar-brand" href="#">Alto Turmeque Ltda</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="./index.html">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contacto</a>
+                    </li>
+                </ul>
+                <span class="navbar-text">
+                 
+                    <a href="./index.html"><button type="button" class="btn btn-success" >Salir de Asesor</button></a>
+                </span>
+            </div>
+        </nav>
+    </div>
+    <!-- fin mi navegacion -->
+
+   
+   
+    <div class="container-sm p-1 my-5 border">
+        <p class="h5" id="texth3Index">Descripción del Asesor:</p>
+        <hr>
+        <div class="mb-3 my-3" id="descrip">
+            <label for="newRDay" class="form.label"><strong>Fecha de registro:</strong></label>
+            <input type="Date" class="form-control" id="newRDay" placeholder="dd/mm/aaaa">
+        </div>
+        <div class="mb-3" id="descrip">
+            <label for="newStatus" class="form-label"><strong>Estado:</strong></label>
+            <select class="form-control" id="newStatus">
+                <option>Pendiente</option>
+            </select>
+        </div>
+        <div class="mb-3 mt-3" id="descrip">
+            <label for="newSalesman" class="form-label"><strong>Asesor comercial</strong></label>
+            <input type="text" class="form-control" id="newSalesman" disabled>
+        </div>
+        <div class="mb-3 mt-3 text-center" id="products">
+            <button type="submit" class="btn btn-success" onclick="bringProducts()">
+                Ver productos</button>
+        </div>
+        
+    
+
+    
+    <table class="table table-striped table-responsive" id="orderTable">
+        <tr>
+            <th>Referencia</th>
+            <th>Categoría</th>
+            <th>Talla</th>
+            <th>Disponibilidad</th>
+            <th>Precio</th>
+            <th>Descripción</th>
+            <th>Cantidad a pedir</th>
+            <th>Eliminar producto</th>
+        </tr>
+    </table>
+    
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary" onclick="sendOrder('orderForm')">Enviar solicitud de pedido</button>
+    </div>
+
+    <!-- mi Footer -->
+    <div class="miFooter">
+        <!-- Footer -->
+        <footer class="page-footer font-small special-color-dark pt-4">
+
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">© 2021 Copyright:
+                <a href="./index.html"> deAltoTurmeque.com</a>
+            </div>
+            <!-- Copyright -->
+
+        </footer>
+        <!-- Footer -->
+    </div>
+    <!-- fin mi Footer -->
+    </div>
+
+    
+    <!-- fin mi Footer -->
+    <script type="text/javascript" src="js/script.js"></script>
+    
+</body>
+
+</html>

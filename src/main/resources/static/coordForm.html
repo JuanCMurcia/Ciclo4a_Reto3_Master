@@ -1,31 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="fav/favicon.ico" type="image/x-icon">
+        <title>Turmeque: Admin</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+        <script src="js/name.js"></script>
+        <link rel="stylesheet" href="css/coord.css">
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="fav/favicon.ico" type="image/x-icon">
-    <title>Administrar Productos</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script src="js/name.js"></script>
-    <link rel="stylesheet" href="css/admon.css">
-</head>
-
-<body onload="showData('productsAdmon');">
+<body onload="coordPage();">
     <!-- mi navegacion -->
-    <div class="miNav" id="admonProductsBar">
+    <div class="miNav">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <img src="images/LogoTurmeque.png" alt="" style="margin-right: 20px;">
             <a class="navbar-brand" href="#">Alto Turmeque Ltda</a>
@@ -46,25 +45,31 @@
                     </li>
                 </ul>
                 <span class="navbar-text">
-                    <span class="nombreUsuario">Aqui va el nombre de usuario</span>
-                    <a href="./registerProductForm.html"><button type="button" class="btn btn-success"
-                            onclick="registerProductForm()">Crear Nuevo Producto</button></a>
-                    <a href="./productsAdmon.html"><button type="button" class="btn btn-success"
-                            onclick="showData('productsAdmon')">Listar Productos</button></a>
+                    
+                 
+                    <a href="./index.html"><button type="button" class="btn btn-success" >Salir de Coordinador</button></a>
                 </span>
             </div>
         </nav>
     </div>
     <!-- fin mi navegacion -->
-
-    <br>
-    <br>
     
-    <div id="productsAdmonResult"></div>
-    <br>
-    <a href="./admon.html">
-        <p class="h6 text-center" id="marg-volver">Volver</p>
-    </a>
+    
+    </br>
+    <div class="container-sm p-1 my-5 border">
+        
+        <p class="h5" id="texth3Index">Descripcion del Coordinador:</p>
+        
+        <hr>
+        <div id="coordData">
+        </div>
+    </div>
+    <p class="h5 text-center" id="zona">Ver Ordenes de zona</p>
+    <div class="text-center">
+        <button type="submit" class="btn btn-success" onclick="orderList()">Click aquí</button>
+    </div>
+
+    <div id="ordersTable"></div>
 
     <!-- mi Footer -->
     <div class="miFooter">
@@ -84,6 +89,6 @@
 
 
     <script type="text/javascript" src="js/script.js"></script>
-</body>
 
+</body>
 </html>

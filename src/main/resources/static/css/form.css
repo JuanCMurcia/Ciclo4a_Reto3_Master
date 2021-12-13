@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+.container-sm {
+    margin-top: 60px;
+    max-width: 550px;
+    height: 900px;
+    border: 1px solid #414141;
+    background-color: #b9e6eb;
+    border-radius: 10px;
+}
+h1 {
+    font-family: Baloo;
+}
+#newUserBar {
+    background-color: #414141;
+}
+#newProductBar {
+    background-color: #414141;
+}
+#updateUsersBar {
+    background-color: #414141;
+}
